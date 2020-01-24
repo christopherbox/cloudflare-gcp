@@ -1,5 +1,10 @@
 [
   {
+    "name": "BotScore",
+    "type": "INTEGER",
+    "mode": "NULLABLE"
+  },
+  {
     "name": "CacheCacheStatus",
     "type": "STRING",
     "mode": "NULLABLE"
