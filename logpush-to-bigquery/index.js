@@ -20,15 +20,30 @@ async function gcsbq (file, context) {
   /* Configure the load job and ignore values undefined in schema */
   const metadata = {
     sourceFormat: 'NEWLINE_DELIMITED_JSON',
+    timePartitioning: {
+      type: 'DAY',
+      field: 'EdgeStartTimestamp'
+    },
     schema: {
       fields: schema
     },
     ignoreUnknownValues: true
   }
 
+  const options = {
+    timePartitioning: {
+      type: 'DAY',
+      field: 'EdgeStartTimestamp',
+    },
+    schema: {
+      fields: schema
+    },
+    autoCreate: true
+  }
+
   const addToTable = async (tableId) => {
     const dataset = await bigquery.dataset(datasetId).get({ autoCreate: true })
-    const table = await dataset[0].table(tableId).get({ autoCreate: true })
+    const table = await dataset[0].table(tableId).get(options)
     return table[0].load(filename, metadata)
   }
 
